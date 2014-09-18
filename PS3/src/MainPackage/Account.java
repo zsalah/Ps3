@@ -16,16 +16,14 @@ public class Account {
 	static DateFormat Date = DateFormat.getDateInstance(DateFormat.LONG, Locale.US);
 	
 	Scanner user_input = new Scanner(System.in);
-
-	public Account() {
-		
-	}
 	
-	public Account(int id, double balance){
+	public Account(int id, double balance, double annualInterestRate){
 		
 		this.setId(id);
 		
 		this.setBalance(balance);
+		
+		this.setAnnualInterestRate(annualInterestRate);
 	}
 
 	/**
@@ -89,34 +87,27 @@ public class Account {
 		return (getAnnualInterestRate() / 12);
 	}
 	
-	public double withdraw(double d){
+	public void withdraw(double amount) throws InsufficientFundsException {
 		
-		double newBalance;
+		if (amount <= balance){
+			
+			balance -= amount;
+			
+		}
 		
-		double finalValue;
-		
-		System.out.println("How much money to WITHDRAW? ");
-		
-		newBalance = user_input.nextDouble();
-		
-		finalValue = (getBalance() - newBalance);
-		
-		return finalValue;
+		else{
+			
+			double needs = amount - balance;
+			
+			throw new InsufficientFundsException(needs);
+			
+		}
 	}
 	
-	public double deposit(double d){
+	public void deposit(double amount){
 		
-		double DepositMoney;
+		balance += amount;
 		
-		double newBalance;
-		
-		System.out.println("How much money to DEPOSIT? ");
-		
-		DepositMoney = user_input.nextDouble();
-		
-		newBalance = (getBalance() + DepositMoney);
-		
-		return newBalance;
 	}
 	
 
